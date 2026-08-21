@@ -13,6 +13,8 @@ from rest_framework.permissions import IsAdminUser
 def trigger_error(request):
     """Sentry test"""
     division_by_zero = 1 / 0
+    return JsonResponse({"this": "will never be returned"})
+
 
 @api_view(['GET'])
 def health_check(request):
