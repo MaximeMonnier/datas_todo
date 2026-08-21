@@ -10,6 +10,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAdminUser
 
 @api_view(['GET'])
+def trigger_error(request):
+    """Sentry test"""
+    division_by_zero = 1 / 0
+
+@api_view(['GET'])
 def health_check(request):
     """Une vue simple qui renvoie un statut de succès."""
     return Response({"status": "ok", "message": "API is healthy"})

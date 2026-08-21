@@ -1,6 +1,8 @@
 import os
 import dj_database_url
 from .base import *
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # ==============================================================================
 # SÉCURITÉ
@@ -54,3 +56,15 @@ STORAGES = {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
 }
+
+
+
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
+
+    if SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=SENTRY_DSN,
+            integrations=[DjangoIntegration()],
+            traces_sample_rate=1.0, # Capture 100% des transactions pour le monitoring de perf.
+            send_default_pii=True
+        )

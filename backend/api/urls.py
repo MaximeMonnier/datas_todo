@@ -11,4 +11,5 @@ urlpatterns = [
     path('tasks/', views.get_tasks, name='get_tasks'),
     path('tasks/<int:pk>/', views.get_tasks, name='get_task_detail'),
     path('health/', views.health_check, name='health_check'),
+    path('sentry-debug/', trigger_error),
 ]
