@@ -59,12 +59,17 @@ STORAGES = {
 
 
 
+# ==============================================================================
+# SENTRY
+# ==============================================================================
+
 SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
-    if SENTRY_DSN:
-        sentry_sdk.init(
-            dsn=SENTRY_DSN,
-            integrations=[DjangoIntegration()],
-            traces_sample_rate=1.0, # Capture 100% des transactions pour le monitoring de perf.
-            send_default_pii=True
-        )
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        environment=os.environ.get('SENTRY_ENVIRONMENT', 'production'),
+        traces_sample_rate=1.0,  # Capture 100% des transactions pour le monitoring de perf.
+        send_default_pii=True,
+    )

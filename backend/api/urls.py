@@ -11,5 +11,5 @@ urlpatterns = [
     path('tasks/', views.get_tasks, name='get_tasks'),
     path('tasks/<int:pk>/', views.get_tasks, name='get_task_detail'),
     path('health/', views.health_check, name='health_check'),
-    path('error/', trigger_error, name='trigger_error'),
+    path('error/', views.trigger_error, name='trigger_error'),
 ]
