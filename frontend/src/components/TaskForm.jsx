@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Select from "./utils/Select";
 import axios from "axios";
+import { API_URL } from "../api";
 
 const TaskForm = ({ onCategoryChange }) => {
   const [category, setCategory] = useState("");
@@ -8,7 +9,7 @@ const TaskForm = ({ onCategoryChange }) => {
 
   async function getCategories() {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/categories/");
+      const response = await axios.get(`${API_URL}/categories/`);
       setCategories(response.data);
     } catch (error) {
       console.error(error);

@@ -3,8 +3,7 @@ import Input from "./utils/Input";
 import Select from "./utils/Select";
 import Button from "./utils/Button";
 import Card from "./utils/Card";
-
-const API_URL = "http://127.0.0.1:8000/api";
+import { API_URL } from "../api";
 
 const TaskList = ({ filterCategory }) => {
   const [taskName, setTaskName] = useState("");

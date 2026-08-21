@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "./utils/Button";
 import Input from "./utils/Input";
 import axios from "axios";
+import { API_URL } from "../api";
 
 const CategoryForm = () => {
   const [newCategory, setNewCategory] = useState("");
@@ -19,7 +20,7 @@ const CategoryForm = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/categories/",
+        `${API_URL}/categories/`,
         {
           name: newCategory,
         },

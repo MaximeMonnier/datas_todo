@@ -4,6 +4,7 @@ import CategoryForm from "./components/CatergoryForm";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import axios from "axios";
+import { API_URL } from "./api";
 
 function App() {
   const [filterCategory, setFilterCategory] = useState("Toutes les Catégories");
@@ -11,7 +12,7 @@ function App() {
 
   async function getApiConnexion() {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/hello/");
+      const response = await axios.get(`${API_URL}/hello/`);
       setResponseData(response.data);
       console.log(responseData);
     } catch (error) {
