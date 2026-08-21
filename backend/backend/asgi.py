@@ -11,6 +11,8 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings.development')
+# Point d'entree serveur : on part du principe qu'on est en production.
+# En local, manage.py a deja positionne la variable, donc ce setdefault ne s'applique pas.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings.production')
 
 application = get_asgi_application()
