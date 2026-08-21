@@ -3,6 +3,7 @@ import Button from "./utils/Button";
 import Input from "./utils/Input";
 import axios from "axios";
 import { API_URL } from "../api";
+import Test from "../components/utils/Test";
 
 const CategoryForm = () => {
   const [newCategory, setNewCategory] = useState("");
@@ -54,6 +55,7 @@ const CategoryForm = () => {
 
   return (
     <div className="flex flex-col gap-2 w-full">
+      <Test />
       <div className="flex justify-center gap-2 w-full">
         <Input
           className="flex-1"

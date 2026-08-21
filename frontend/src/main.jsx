@@ -4,15 +4,18 @@ import "./index.css";
 import App from "./App.jsx";
 import * as Sentry from "@sentry/react";
 
-if (import.meta.env.PROD) {
+// Sentry demarre des qu'un DSN est fourni : en production via .env.production,
+// et en local si on ajoute VITE_SENTRY_DSN a .env (pratique pour tester).
+if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.MODE, // "development" ou "production" dans Sentry
 
-    integrations: [Sentry.browserTracing(), Sentry.replay()],
-    traces_sample_rate: 1.0,
+    integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+    tracesSampleRate: 1.0,
 
-    replays_session_sample_rate: 0.1, // On enregistre 10% des sessions.
-    replays_on_error_sample_rate: 1.0, // Mais on enregistre 100% des sessions où une erreur survient.
+    replaysSessionSampleRate: 0.1, // On enregistre 10% des sessions.
+    replaysOnErrorSampleRate: 1.0, // Mais on enregistre 100% des sessions où une erreur survient.
   });
 }
 
