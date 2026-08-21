@@ -17,6 +17,11 @@ def _env_list(name):
 
 ALLOWED_HOSTS = _env_list('ALLOWED_HOSTS')
 CORS_ALLOWED_ORIGINS = _env_list('CORS_ALLOWED_ORIGINS')
+
+# Vercel cree une URL unique a chaque deploiement
+# (ex: datas-todo-2j69ltotd-maximemonniers-projects.vercel.app), impossible a
+# lister a l'avance : on les autorise par motif.
+CORS_ALLOWED_ORIGIN_REGEXES = _env_list('CORS_ALLOWED_ORIGIN_REGEXES')
 CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS if not host.startswith('.')]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
