@@ -6,10 +6,22 @@ from .base import *
 # SÉCURITÉ
 # ==============================================================================
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = False
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
+
+
+def _env_list(name):
+    """Découpe une variable d'env 'a,b,c' en liste, sans entrées vides."""
+    return [v.strip() for v in os.environ.get(name, '').split(',') if v.strip()]
+
+
+ALLOWED_HOSTS = _env_list('ALLOWED_HOSTS')
+CORS_ALLOWED_ORIGINS = _env_list('CORS_ALLOWED_ORIGINS')
+CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS if not host.startswith('.')]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # ==============================================================================
 # BASE DE DONNÉES
@@ -27,4 +39,13 @@ DATABASES = {
 # ==============================================================================
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Django 6 : STATICFILES_STORAGE a été supprimé, il faut passer par STORAGES
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
