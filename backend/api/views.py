@@ -10,6 +10,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAdminUser
 
 @api_view(['GET'])
+def health_check(request):
+    """Une vue simple qui renvoie un statut de succès."""
+    return Response({"status": "ok", "message": "API is healthy"})
+
+@api_view(['GET'])
 # @permission_classes([IsAuthenticated])
 # @permission_classes([IsAdminUser])
 def hello_view(request):
