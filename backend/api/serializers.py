@@ -16,5 +16,6 @@ class CategorySerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['id', 'description', 'is_completed', 'created_at', 'category']
-        read_only_fields = ['created_at']
+        fields = ['id', 'description', 'is_completed', 'created_at', 'category', 'user']
+        # le proprietaire est impose par la vue, jamais par le client
+        read_only_fields = ['created_at', 'user']
