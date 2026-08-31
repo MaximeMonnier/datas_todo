@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "./utils/Card";
 import AddTaskForm from "./AddTaskForm";
 import { API_URL } from "../api";
+import { authHeaders } from "../auth";
 
 const TaskList = ({ filterCategory }) => {
   const [tasks, setTasks] = useState([]);
@@ -15,8 +16,8 @@ const TaskList = ({ filterCategory }) => {
       try {
         setError(null);
         const [categoriesRes, tasksRes] = await Promise.all([
-          fetch(`${API_URL}/categories/`),
-          fetch(`${API_URL}/tasks/`),
+          fetch(`${API_URL}/categories/`, { headers: authHeaders() }),
+          fetch(`${API_URL}/tasks/`, { headers: authHeaders() }),
         ]);
 
         if (categoriesRes.ok) {
@@ -52,6 +53,7 @@ const TaskList = ({ filterCategory }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...authHeaders(),
         },
         body: JSON.stringify({
           description: title,
@@ -81,6 +83,7 @@ const TaskList = ({ filterCategory }) => {
     try {
       const response = await fetch(`${API_URL}/tasks/${id}/`, {
         method: "DELETE",
+        headers: authHeaders(),
       });
 
       if (response.ok) {
@@ -104,6 +107,7 @@ const TaskList = ({ filterCategory }) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          ...authHeaders(),
         },
         body: JSON.stringify({
           is_completed: !task.is_completed,

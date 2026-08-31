@@ -7,6 +7,7 @@ const Select = ({
   size = "md",
   placeholder = "Choisir...",
   className = "",
+  ...rest // laisse passer les attributs supplementaires (ex: data-cy pour Cypress)
 }) => {
   // Gestion des tailles cohérentes avec tes autres composants
   const sizes = {
@@ -20,6 +21,7 @@ const Select = ({
       value={value}
       onChange={onChange}
       className={`border rounded-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${sizes[size]} ${className}`}
+      {...rest}
     >
       {(!value || value === "") && (
         <option value="" disabled hidden>

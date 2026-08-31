@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Select from "./utils/Select";
 import axios from "axios";
 import { API_URL } from "../api";
+import { authHeaders } from "../auth";
 
 const TaskForm = ({ onCategoryChange }) => {
   const [category, setCategory] = useState("");
@@ -9,7 +10,9 @@ const TaskForm = ({ onCategoryChange }) => {
 
   async function getCategories() {
     try {
-      const response = await axios.get(`${API_URL}/categories/`);
+      const response = await axios.get(`${API_URL}/categories/`, {
+        headers: authHeaders(),
+      });
       setCategories(response.data);
     } catch (error) {
       console.error(error);
@@ -38,6 +41,7 @@ const TaskForm = ({ onCategoryChange }) => {
         onChange={handleChange}
         size="md"
         placeholder="Toutes les catégories"
+        data-cy="category-filter"
       />
     </div>
   );

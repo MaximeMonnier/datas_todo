@@ -7,6 +7,7 @@ const Button = ({
   disabled = false,
   children,
   className = "",
+  ...rest // laisse passer les attributs supplementaires (ex: type, data-cy)
 }) => {
   const sizes = {
     sm: "px-3 py-1 text-sm",
@@ -22,7 +23,7 @@ const Button = ({
   `;
 
   return (
-    <button onClick={onClick} disabled={disabled} className={baseClasses}>
+    <button onClick={onClick} disabled={disabled} className={baseClasses} {...rest}>
       {children}
     </button>
   );

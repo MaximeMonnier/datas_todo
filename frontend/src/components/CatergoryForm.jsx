@@ -3,6 +3,7 @@ import Button from "./utils/Button";
 import Input from "./utils/Input";
 import axios from "axios";
 import { API_URL } from "../api";
+import { authHeaders } from "../auth";
 import Test from "../components/utils/Test";
 
 const CategoryForm = () => {
@@ -28,6 +29,7 @@ const CategoryForm = () => {
         {
           headers: {
             "Content-Type": "application/json",
+            ...authHeaders(),
           },
         },
       );
@@ -64,12 +66,14 @@ const CategoryForm = () => {
           placeholder="Nouvelle catégorie"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
+          data-cy="category-input"
         />
         <Button
           size="sm"
           color="bg-green-600"
           onClick={createCategories}
           disabled={loading}
+          data-cy="category-submit"
         >
           {loading ? "..." : "Ajouter Catégorie"}
         </Button>

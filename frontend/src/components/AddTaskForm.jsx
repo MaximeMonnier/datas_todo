@@ -28,6 +28,7 @@ const AddTaskForm = ({ categories = [], onSubmit, errors = {} }) => {
           placeholder="Nouvelle tâche"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          data-cy="task-input"
         />
         <Select
           className="w-1/3"
@@ -36,12 +37,14 @@ const AddTaskForm = ({ categories = [], onSubmit, errors = {} }) => {
           onChange={(e) => setCategory(e.target.value)}
           size="sm"
           placeholder="Catégorie"
+          data-cy="task-category"
         />
         <Button
           size="sm"
           color="bg-green-600"
           onClick={handleAdd}
           disabled={!isValid}
+          data-cy="task-submit"
         >
           Ajouter
         </Button>

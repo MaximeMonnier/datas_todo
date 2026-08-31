@@ -3,12 +3,16 @@ import { useState, useEffect } from "react";
 import CategoryForm from "./components/CatergoryForm";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
+import Login from "./components/Login";
 import axios from "axios";
 import { API_URL } from "./api";
+import { getToken } from "./auth";
 
 function App() {
   const [filterCategory, setFilterCategory] = useState("Toutes les Catégories");
   const [responseData, setResponseData] = useState("");
+  // Le token survit au rechargement de page : on repart de ce qui est stocke.
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(getToken()));
 
   async function getApiConnexion() {
     try {
@@ -23,6 +27,16 @@ function App() {
   useEffect(() => {
     getApiConnexion();
   }, []);
+
+  // L'API est protegee (IsAuthenticated) : tant qu'on n'est pas connecte,
+  // on n'affiche que le formulaire de connexion.
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col justify-center items-center gap-3 w-full">
+        <Login onLogin={() => setIsAuthenticated(true)} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-center items-center gap-3 w-full ">
