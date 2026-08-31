@@ -4,6 +4,7 @@ const Button = ({
   color = "bg-blue-500",
   size = "md",
   onClick,
+  disabled = false,
   children,
   className = "",
 }) => {
@@ -21,7 +22,7 @@ const Button = ({
   `;
 
   return (
-    <button onClick={onClick} className={baseClasses}>
+    <button onClick={onClick} disabled={disabled} className={baseClasses}>
       {children}
     </button>
   );

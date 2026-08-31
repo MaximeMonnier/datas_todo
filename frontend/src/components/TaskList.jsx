@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Input from "./utils/Input";
-import Select from "./utils/Select";
-import Button from "./utils/Button";
 import Card from "./utils/Card";
+import AddTaskForm from "./AddTaskForm";
 import { API_URL } from "../api";
 
 const TaskList = ({ filterCategory }) => {
-  const [taskName, setTaskName] = useState("");
-  const [category, setCategory] = useState("");
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,15 +43,7 @@ const TaskList = ({ filterCategory }) => {
     fetchData();
   }, []);
 
-  const handleAddTask = async () => {
-    if (!taskName.trim() || !category) {
-      setFormErrors({
-        description: !taskName.trim() ? "La description est requise" : null,
-        category: !category ? "La catégorie est requise" : null,
-      });
-      return;
-    }
-
+  const handleAddTask = async ({ title, category }) => {
     setFormErrors({});
     setError(null);
 
@@ -66,7 +54,7 @@ const TaskList = ({ filterCategory }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          description: taskName,
+          description: title,
           is_completed: false,
           category: parseInt(category),
         }),
@@ -75,16 +63,16 @@ const TaskList = ({ filterCategory }) => {
       if (response.ok) {
         const newTask = await response.json();
         setTasks([...tasks, newTask]);
-        setTaskName("");
-        setCategory("");
-        setFormErrors({});
+        return true;
       } else {
         const errorData = await response.json();
         setFormErrors(errorData);
+        return false;
       }
     } catch (error) {
       console.error("Erreur:", error);
       setError("Erreur de connexion au serveur");
+      return false;
     }
   };
 
@@ -157,36 +145,11 @@ const TaskList = ({ filterCategory }) => {
         </div>
       )}
 
-      <div className="flex flex-col gap-2 w-full">
-        <div className="flex gap-2 w-full">
-          <Input
-            className="flex-1"
-            type="text"
-            size="sm"
-            placeholder="Nouvelle tâche"
-            value={taskName}
-            onChange={(e) => setTaskName(e.target.value)}
-          />
-          <Select
-            className="w-1/3"
-            options={categories.map((c) => ({ value: c.id, label: c.name }))}
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            size="sm"
-            placeholder="Catégorie"
-          />
-          <Button size="sm" color="bg-green-600" onClick={handleAddTask}>
-            Ajouter
-          </Button>
-        </div>
-        {/* Affichage des erreurs de validation */}
-        {(formErrors.description || formErrors.category) && (
-          <div className="text-red-500 text-xs">
-            {formErrors.description && <p>{formErrors.description}</p>}
-            {formErrors.category && <p>{formErrors.category}</p>}
-          </div>
-        )}
-      </div>
+      <AddTaskForm
+        categories={categories}
+        onSubmit={handleAddTask}
+        errors={formErrors}
+      />
 
       <div className="w-full mt-3 space-y-2">
         {filteredTasks.length === 0 ? (

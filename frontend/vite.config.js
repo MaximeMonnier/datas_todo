@@ -41,6 +41,17 @@ export default defineConfig({
           }]
         }
       }
+    }, {
+      // Tests unitaires React Testing Library (jsdom, pas de vrai navigateur).
+      // Lance-les avec `npm test`.
+      extends: true,
+      test: {
+        name: 'unit',
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: ['./vitest.setup.js'],
+        include: ['src/**/*.test.{js,jsx}']
+      }
     }]
   }
 });
